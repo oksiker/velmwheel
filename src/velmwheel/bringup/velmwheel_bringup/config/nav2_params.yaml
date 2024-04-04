@@ -111,7 +111,7 @@ controller_server:
     odom_topic: velmwheel/odom/filtered
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
-    min_y_velocity_threshold: 0.5
+    min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
     failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
@@ -132,30 +132,30 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.07
-      yaw_goal_tolerance: 0.12
+      xy_goal_tolerance: 0.05
+      yaw_goal_tolerance: 0.06
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      min_vel_x: -0.05
-      min_vel_y: 0.0
-      max_vel_x: 0.1
-      max_vel_y: 0.0
-      max_vel_theta: 0.8
+      min_vel_x: -0.08
+      min_vel_y: -0.08
+      max_vel_x: 0.08
+      max_vel_y: 0.08
+      max_vel_theta: 0.16
       min_speed_xy: 0.0
-      max_speed_xy: 0.15
+      max_speed_xy: 0.08
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
       acc_lim_x: 2.5
-      acc_lim_y: 0.0
+      acc_lim_y: 2.5
       acc_lim_theta: 3.2
       decel_lim_x: -2.5
-      decel_lim_y: 0.0
+      decel_lim_y: -2.5
       decel_lim_theta: -3.2
       vx_samples: 20
-      vy_samples: 5
+      vy_samples: 20
       vtheta_samples: 20
       sim_time: 1.7
       linear_granularity: 0.05
@@ -165,7 +165,8 @@ controller_server:
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist", "Twirling", "ObstacleFootprint"]
+      #, "PreferForward"]
       BaseObstacle.scale: 0.02
       PathAlign.scale: 32.0
       PathAlign.forward_point_distance: 0.1
@@ -173,9 +174,27 @@ controller_server:
       GoalAlign.forward_point_distance: 0.1
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
+      Twirling.scale: 4.0
       RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: 5.0
+      RotateToGoal.slowing_factor: 4.0
       RotateToGoal.lookahead_time: -1.0
+      # PreferForward.theta_scale: 120.0
+      # PreferForward.scale: 24.0
+
+velocity_smoother:
+  ros__parameters:
+    smoothing_frequency: 20.0
+    scale_velocities: false
+    feedback: "OPEN_LOOP"
+    max_velocity: [0.08, 0.08, 0.16]
+    min_velocity: [-0.8, -0.8, -0.16]
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
+    max_accel: [2.5, 2.5, 3.2]
+    max_decel: [-2.5, -2.5, -3.2]
+    odom_topic: velmwheel/odom/filtered
+    odom_duration: 0.1
+    use_realtime_priority: false
 
 controller_server_rclcpp_node:
   ros__parameters:
@@ -266,7 +285,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.8
-        inflation_radius: 0.75
+        inflation_radius: 0.7
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
