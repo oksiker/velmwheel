@@ -1,0 +1,37 @@
+
+uruchomienie od 0:
+
+source source_me.bash update
+colbuild_prj
+
+
+cd src
+git clone --branch ros2 https://github.com/tuw-robotics/Stage.git
+git clone --branch humble https://github.com/tuw-robotics/stage_ros2.git
+
+
+uruchomienie:
+source source_me.bash
+colbuild_src
+bringup_sim test.world
+
+tutaj sa swiaty src/velmwheel/sim/velmwheel_gazebo/gazebo/media/world
+
+zeby odpalic np. sterowanie wystarczy wpisac
+run_teleop -ale to nie dziala hmmm
+
+wszystkie funkcje tego typu sa w scripts/aliases
+
+
+sterowanie:
+pub_wheel_controls "{values: [9.0, 0.0, 0.0, 0.0]}"
+
+testowanie - pyrobosim_ros
+ros2 launch pyrobosim_ros demo.launch.py world_file:=/home/kamil/velmwheel/p109.yaml
+
+
+
+stage:
+ros2 topic pub /velmobil/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.00, y: 1.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
+
+cave.world - zmienione
