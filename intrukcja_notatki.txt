@@ -31,6 +31,8 @@ source source_me.bash
 colbuild_src
 bringup_sim test.world
 
+ros2 launch velmwheel_bringup bringup_navigation.launch.py
+
 tutaj sa swiaty src/velmwheel/sim/velmwheel_gazebo/gazebo/media/world
 
 zeby odpalic np. sterowanie wystarczy wpisac
@@ -42,16 +44,58 @@ wszystkie funkcje tego typu sa w scripts/aliases
 sterowanie:
 pub_wheel_controls "{values: [9.0, 0.0, 0.0, 0.0]}"
 
+Topici rzeczywiste:
 /velmwheel/lidars/cloud/combined - lidary rzeczysitego robota
+sensor_msgs/msg/PointCloud2
+
+/velmwheel/pose
+geometry_msgs/msg/PoseWithCovarianceStamped
+
 /velmwheel/odom/encoders/pose - pozycja
+geometry_msgs/msg/PoseStamped
+
+ros2 topic pub -r 1 /goal_pose geometry_msgs/msg/PoseStamped "header:
+  stamp:
+    sec: 0
+    nanosec: 0
+  frame_id: 'map'
+pose:
+  position:
+    x: 1.0
+    y: 2.0
+    z: 0.0
+  orientation:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0"
 
 stage: (https://github.com/tuw-robotics/stage_ros2?tab=readme-ov-file)
 ros2 launch stage_ros2 stage.launch.py world:=cave enforce_prefixes:=false one_tf_tree:=true
 ros2 topic pub /velmobil/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.00, y: 1.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.00, y: 1.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
+
+/base_scan1
+sensor_msgs/msg/LaserScan
+/odom
+nav_msgs/msg/Odometry
 
 cave.world - zmienione
 
 ros2 ropic list
 /base_scan1
 
+strona 61 magisterki jak zrobic mape srodowiska
+jak uruchomic nava:
+ros2 launch velmwheel_bringup bringup_navigation.launch.py map:=p109.yaml
 
+dodalem nowy pakiet control_package (https://chatgpt.com/c/67829e1c-9df8-8011-8eec-53db24a8799a)
+ros2 run control_package my_node
+
+proba pisania programu:
+pip install stable-baselines3
+pip install gym[ros]
+
+tworzeni  i aktywacja srodowiska
+python3 -m venv myenv
+source myenv/bin/activate
