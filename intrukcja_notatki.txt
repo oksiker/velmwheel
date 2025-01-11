@@ -1,4 +1,20 @@
 
+git clone https://github.com/oksiker/velmwheel.git
+cd velmwheel
+pamietac o poprawnej wersji sphinxa i zeby zainstalowac wszystko co jest napisane w githubie w readme wraz z plikami dodatkowymi
+
+zwiekszenie SWAPa
+
+sudo swapoff /swapfile
+sudo rm /swapfile
+sudo fallocate -l 8G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+zuzycie procesora:
+htop
+
 uruchomienie od 0:
 
 source source_me.bash update
@@ -26,12 +42,16 @@ wszystkie funkcje tego typu sa w scripts/aliases
 sterowanie:
 pub_wheel_controls "{values: [9.0, 0.0, 0.0, 0.0]}"
 
-testowanie - pyrobosim_ros
-ros2 launch pyrobosim_ros demo.launch.py world_file:=/home/kamil/velmwheel/p109.yaml
+/velmwheel/lidars/cloud/combined - lidary rzeczysitego robota
+/velmwheel/odom/encoders/pose - pozycja
 
-
-
-stage:
+stage: (https://github.com/tuw-robotics/stage_ros2?tab=readme-ov-file)
+ros2 launch stage_ros2 stage.launch.py world:=cave enforce_prefixes:=false one_tf_tree:=true
 ros2 topic pub /velmobil/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.00, y: 1.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}"
 
 cave.world - zmienione
+
+ros2 ropic list
+/base_scan1
+
+
