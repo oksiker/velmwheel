@@ -99,3 +99,6 @@ pip install gym[ros]
 tworzeni  i aktywacja srodowiska
 python3 -m venv myenv
 source myenv/bin/activate
+
+
+https://github.com/tomasvr/turtlebot3_drlnav/blob/main/src/turtlebot3_drl/turtlebot3_drl/drl_agent/drl_agent.py
