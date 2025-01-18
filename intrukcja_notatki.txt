@@ -102,3 +102,5 @@ source myenv/bin/activate
 
 
 https://github.com/tomasvr/turtlebot3_drlnav/blob/main/src/turtlebot3_drl/turtlebot3_drl/drl_agent/drl_agent.py
+
+torch dziala na python 3.7.9
