@@ -2,7 +2,7 @@
 git clone https://github.com/oksiker/velmwheel.git
 cd velmwheel
 pamietac o poprawnej wersji sphinxa i zeby zainstalowac wszystko co jest napisane w githubie w readme wraz z plikami dodatkowymi
-
+pip install sphinx==5.1.1
 zwiekszenie SWAPa
 
 sudo swapoff /swapfile
