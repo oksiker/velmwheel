@@ -46,9 +46,19 @@ sterowanie:
 pub_wheel_controls "{values: [9.0, 0.0, 0.0, 0.0]}"
 
 Topici rzeczywiste:
-/velmwheel/lidars/cloud/combined - lidary rzeczysitego robota
+/velmwheel/base/velocity
+geometry_msgs/msg/Twist
+
+/velmwheel/base/controls
+velmwheel_msgs/msg/Wheels
+ros2 topic pub /velmwheel/base/controls velmwheel_msgs/msg/Wheels "{values: [1.0, 1.0, 1.0, 1.0]}"
+
+/velmwheel/lidars/cloud/combined 
 sensor_msgs/msg/PointCloud2
 
+/velmwheel/odom/encoders/pose
+geometry_msgs/msg/PoseStamped
+_________________________________________
 /velmwheel/pose
 geometry_msgs/msg/PoseWithCovarianceStamped
 
